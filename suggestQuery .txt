@@ -1,0 +1,223 @@
+{
+  "from": 0,
+  "size": 50,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "status": {
+              "value": 1,
+              "boost": 1
+            }
+          }
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "terms": {
+                  "part_type": {
+                    "value": ["MODEL","PART","SOFTWARE"]
+                    "boost": 1
+                  }
+                }
+              },
+            "adjust_pure_negative": true,
+            "minimum_should_match": "1",
+            "boost": 1
+          }
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "terms": {
+                  "catalog": {
+                    "value": "CLARIOS",
+                    "boost": 1
+                  }
+                }
+              }
+            ],
+            "adjust_pure_negative": true,
+            "minimum_should_match": "1",
+            "boost": 1
+          }
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "terms": {
+                  "distributor_codes": [
+                    "OPT00001"
+                  ],
+                  "boost": 1
+                }
+              }
+            ],
+            "adjust_pure_negative": true,
+            "minimum_should_match": "1",
+            "boost": 1
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "statusCode": {
+              "value": "Obsolete",
+              "boost": 1
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "multi_match": {
+            "query": "3",
+            "fields": [
+              "attr_name_values^1.1",
+              "part_number.part_number_edgengram^120.1",
+              "part_number.part_number_ngram^120.8"
+            ],
+            "type": "cross_fields",
+            "operator": "AND",
+            "slop": 0,
+            "prefix_length": 0,
+            "max_expansions": 50,
+            "zero_terms_query": "NONE",
+            "auto_generate_synonyms_phrase_query": true,
+            "fuzzy_transpositions": true,
+            "boost": 1
+          }
+        },
+        {
+          "nested": {
+            "query": {
+              "multi_match": {
+                "query": "3",
+                "fields": [
+                  "interchange.part_number.part_number_edgengram^48.1",
+                  "interchange.part_number.part_number_ngram^48.1",
+                  "interchange.part_number.part_number_trimmed^48.1"
+                ],
+                "type": "cross_fields",
+                "operator": "AND",
+                "slop": 0,
+                "prefix_length": 0,
+                "max_expansions": 50,
+                "zero_terms_query": "NONE",
+                "auto_generate_synonyms_phrase_query": true,
+                "fuzzy_transpositions": true,
+                "boost": 1
+              }
+            },
+            "path": "interchange",
+            "ignore_unmapped": false,
+            "score_mode": "avg",
+            "boost": 1
+          }
+        }
+      ],
+      "adjust_pure_negative": true,
+      "minimum_should_match": "1",
+      "boost": 1
+    }
+  },
+  "post_filter": {
+    "bool": {
+      "must_not": [
+        {
+          "bool": {
+            "must": [
+              {
+                "term": {
+                  "catalog": {
+                    "value": "KB_OH_SAP",
+                    "boost": 1
+                  }
+                }
+              },
+              {
+                "nested": {
+                  "query": {
+                    "bool": {
+                      "must": [
+                        {
+                          "prefix": {
+                            "interchange.part_number.part_number_raw": {
+                              "value": "3",
+                              "boost": 1
+                            }
+                          }
+                        }
+                      ],
+                      "adjust_pure_negative": true,
+                      "boost": 1
+                    }
+                  },
+                  "path": "interchange",
+                  "ignore_unmapped": false,
+                  "score_mode": "min",
+                  "boost": 1
+                }
+              }
+            ],
+            "should": [
+              {
+                "bool": {
+                  "must_not": [
+                    {
+                      "term": {
+                        "part_number.part_number_raw": {
+                          "value": "3",
+                          "boost": 1
+                        }
+                      }
+                    }
+                  ],
+                  "adjust_pure_negative": true,
+                  "boost": 1
+                }
+              }
+            ],
+            "adjust_pure_negative": true,
+            "boost": 1
+          }
+        }
+      ],
+      "adjust_pure_negative": true,
+      "boost": 1
+    }
+  },
+  "_source": {
+    "includes": [
+      "part_number",
+      "part_type",
+      "part_desc",
+      "long_desc",
+      "catalog",
+      "brand",
+      "brand_code",
+      "cat_path",
+      "product_type",
+      "numeric_attr",
+      "string_attr",
+      "assets"
+    ],
+    "excludes": []
+  },
+  "sort": [
+    {
+      "pop_code": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+CTU-12 Upgrade Elastic Search version to 8.x
+CTU-84 Search-web module migration JAVA service
+CTU-86 Search Suggest API with Es8 Java API client  implement Unit Testing 

@@ -1,0 +1,132 @@
+https://opster.com/guides/elasticsearch/data-architecture/elasticsearch-optimizing-schema-design/
+
+https://mkonda007.medium.com/mapping-1-n-overview-of-mapping-9327d9bf077
+
+https://docs.elastic.co/integrations/kafka
+
+
+https://opster.com/guides/elasticsearch/search-apis/elasticsearch-filter-aggregation/
+
+Filter Aggregation R& D
+
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-client-apps-excel.html
+
+
+SXSSF is failure for it takes large heap memory SXSSF (Streaming Usermodel API)
+
+solution is SAX event api which work like a serial ..
+https://poi.apache.org/components/spreadsheet/how-to.html#xssf_sax_api
+
+https://poi.apache.org/apidocs/dev/org/apache/poi/xssf/streaming/SXSSFWorkbook.html
+
+
+---------------------
+---
+
+Problem ..
+
+query:{
+  bool:{
+     must [],
+	 should[]
+  }
+
+
+}
+
+query:{
+  bool:{
+     must [
+	 
+	   term -> filterByDistributorcode  -> previous version it is returing the  builder with really not carry boolQuery 
+	 
+	 ],
+	 should[]
+  }
+
+
+}
+
+
+Problem 2
+
+what is the method FilterByDistributorCode has different Queries carryout 
+Sol: we go with Query Approch we convert all types of queries into QUERY Object TYPE
+
+problem 3 
+    
+	what if different queries in a method has a differnt cluased like must should and with nested 
+ 
+
+i am working on above problems.. now 
+
+my approch is to spilt the methods and remove the complete from the methods  
+
+
+
+
+TermsQuery Snippits 
+
+List<String> distributorCodes = getSearchProperties().getSupportedDistributorCodes();
+		if(!CollectionUtils.isEmpty(distributorCodes)) {
+			List<FieldValue> valList =new ArrayList<>();
+			distributorCodes.forEach(code -> {
+				valList.add(FieldValue.of(code));
+			});
+			TermsQueryField termsQueryField = TermsQueryField.of(values -> values.value(valList));
+			
+			-------------------
+			
+			
+			
+			
+			
+			-----
+			
+			
+CTU-84 Search-web module migration JAVA service
+CTU-86 Search Suggest API with Es8 Java API client  implement Unit Testing 
+			CTU-12 Upgrade Elastic Search version to 8.x
+			
+			CTU-12 Upgrade Elastic Search version to 8.x
+			CTU-86>>Search Suggest API with Es8 Java API client  implement Unit Testing 
+			CTU-97>>offHighfilterIn Dana SuggestAPI 
+			CTU-94>>R&D Sub/nestedAggregation..
+			CTU-95>>R&D on InnerFilterTerm and response manupulation
+			CTU-98>> Secondary Laptop  Setup with JDK 8 search code base
+			
+			
+			
+			Story-2
+			Task-4
+			
+			
+			
+			
+			
+			biotreee 
+			extree 
+			
+			2 break bio treee
+			
+			closeup gel
+			wed/sat   
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			{
+			"field":"value"
+			}
+			
+		

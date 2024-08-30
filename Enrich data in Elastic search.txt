@@ -1,0 +1,13 @@
+Enriching Data based on Exact Values 
+    
+	Enriching Data mean 
+	adding an multiple indexes data for incoming document 
+	
+	
+	Part service ,CI-service Es push inserted update delete
+	
+	CI service  update 
+	
+	Customer data Load index  (Where to Buy)
+	
+	
